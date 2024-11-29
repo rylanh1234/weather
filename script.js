@@ -4,16 +4,16 @@ function getUrl(location) {
 }
 
 function getResponse(url) {
-    fetch(url, {
+    return fetch(url, {
         mode: 'cors'
     })
         .then(function (response) {
             return response.json(); //process response
         })
-        .then(function(data) {
-            console.log(data.currentConditions.temp); // use the processed data to get temp
+        .then(function (data) {
+            return data.currentConditions.temp; // use the processed data to get temp
         })
-        .catch(function(err) {
+        .catch(function (err) {
             console.log("ERROR"); // handle error
         });
 }
@@ -43,7 +43,12 @@ locationBtn.addEventListener("click", () => {
             event.preventDefault();
             const location = input.value;
             const url = getUrl(location);
-            const response = getResponse(url);
+            let temp = "";
+            getResponse(url)
+                .then((data) => {
+                    temp = data;
+                    console.log(temp)
+                });
             this.remove();
         })
     }
