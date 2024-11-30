@@ -11,12 +11,23 @@ function getResponse(url) {
             return response.json(); //process response
         })
         .then(function (data) {
-            return data.currentConditions.temp; // use the processed data to get temp
+            return data.currentConditions; // use the processed data to get currentConditions
         })
         .catch(function (err) {
             console.log("ERROR"); // handle error
         });
 }
+
+function displayWeather(currentConditions) {
+    const container = document.querySelector("#container");
+    const tempDiv = document.createElement("div");
+    tempDiv.textContent = currentConditions.temp;
+    console.log(currentConditions)
+    const conditionDiv = document.createElement("img");
+    container.appendChild(tempDiv);
+    container.appendChild(conditionDiv);
+}
+
 const formContainer = document.querySelector("#formContainer");
 const locationBtn = document.querySelector("#locationBtn");
 locationBtn.addEventListener("click", () => {
@@ -43,11 +54,11 @@ locationBtn.addEventListener("click", () => {
             event.preventDefault();
             const location = input.value;
             const url = getUrl(location);
-            let temp = "";
+            let currentConditions = "";
             getResponse(url)
                 .then((data) => {
-                    temp = data;
-                    console.log(temp)
+                    currentConditions = data;
+                    displayWeather(currentConditions);
                 });
             this.remove();
         })
