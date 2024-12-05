@@ -75,8 +75,13 @@ locationBtn.addEventListener("click", () => {
             const typeWeather = "weather";
             const urlWeather = getUrl(typeWeather, userLocation);
             let weatherData = "";
+            const container = document.querySelector("#container");
+            const loadingDiv = document.createElement("div");
+            loadingDiv.textContent = "Loading...";
+            container.appendChild(loadingDiv);
             getResponse(urlWeather)
                 .then((data) => {
+                    loadingDiv.remove();
                     weatherData = data;
                     displayWeather(weatherData);
                 });
